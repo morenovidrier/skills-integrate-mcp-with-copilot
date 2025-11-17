@@ -1,0 +1,34 @@
+name: Add Closing Comment to Issue
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Issue number to comment on'
+        required: true
+        default: '5'
+
+permissions:
+  issues: write
+
+jobs:
+  add_comment:
+    name: Add closing comment
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Add closing comment to issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = ${{ github.event.inputs.issue_number }};
+            const commentBody = `The admin mode authentication system has been successfully implemented, allowing teachers to manage student registrations while students can view activities. Thank you to everyone for your ideas and feedback on this enhancement!`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: commentBody
+            });
+            
+            console.log(`✓ Successfully added closing comment to issue #${issueNumber}`);
