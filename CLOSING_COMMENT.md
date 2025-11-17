@@ -35,25 +35,49 @@ The admin mode authentication system has been successfully implemented, allowing
 
 ## How to Add the Comment
 
-### Method 1: Using GitHub CLI
+Multiple methods are available to add the closing comment to Issue #5:
+
+### Method 1: Using the Shell Script (Recommended)
+The simplest method is to use the provided shell script:
 ```bash
-gh issue comment 5 --body "The admin mode authentication system has been successfully implemented, allowing teachers to manage student registrations while students can view activities. Thank you to everyone for your ideas and feedback on this enhancement!"
+export GH_TOKEN="your_github_token"
+./post-closing-comment.sh
 ```
 
-### Method 2: Using the Workflow
-Run the GitHub Action workflow `add-closing-comment.yml` manually:
+This script automatically uses GitHub CLI if available, or falls back to curl.
+
+### Method 2: Using GitHub CLI Directly
+```bash
+export GH_TOKEN="your_github_token"
+gh issue comment 5 --repo morenovidrier/skills-integrate-mcp-with-copilot \
+  --body "The admin mode authentication system has been successfully implemented, allowing teachers to manage student registrations while students can view activities. Thank you to everyone for your ideas and feedback on this enhancement!"
+```
+
+### Method 3: Using the GitHub Actions Workflow
+Trigger the workflow manually from the Actions tab or via CLI:
 ```bash
 gh workflow run add-closing-comment.yml --field issue_number=5
 ```
 
-### Method 3: Using the Python Script
+### Method 4: Using the Python Script
 ```bash
-export GITHUB_TOKEN="your_token_here"
+export GITHUB_TOKEN="your_github_token"
 python3 add_closing_comment.py
 ```
 
-### Method 4: Via GitHub Web Interface
+### Method 5: Via GitHub Web Interface
 1. Navigate to https://github.com/morenovidrier/skills-integrate-mcp-with-copilot/issues/5
 2. Scroll to the comment box at the bottom
-3. Paste the closing comment text
+3. Paste the closing comment text:
+   ```
+   The admin mode authentication system has been successfully implemented, allowing teachers to manage student registrations while students can view activities. Thank you to everyone for your ideas and feedback on this enhancement!
+   ```
 4. Click "Comment" button
+
+## Files Created
+
+This solution includes the following files:
+- `post-closing-comment.sh` - Shell script to post the comment (Method 1)
+- `add_closing_comment.py` - Python script to post the comment (Method 4)
+- `.github/workflows/add-closing-comment.yml` - GitHub Actions workflow (Method 3)
+- `CLOSING_COMMENT.md` - This documentation file
