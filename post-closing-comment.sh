@@ -32,11 +32,9 @@ TOKEN="${GH_TOKEN:-$GITHUB_TOKEN}"
 if command -v gh &> /dev/null; then
     echo "Using GitHub CLI to post comment..."
     export GH_TOKEN="$TOKEN"
-    gh issue comment "$ISSUE_NUMBER" \
+    if gh issue comment "$ISSUE_NUMBER" \
         --repo "$OWNER/$REPO" \
-        --body "$COMMENT_BODY"
-    
-    if [ $? -eq 0 ]; then
+        --body "$COMMENT_BODY"; then
         echo "✓ Successfully posted closing comment to issue #$ISSUE_NUMBER"
         exit 0
     else
